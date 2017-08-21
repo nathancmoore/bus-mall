@@ -144,6 +144,8 @@ var availableItems = [bag, banana, bathroom, boots, breakfast, bubblegum, chair,
 
 var unavailableItems = [];
 
+var totalClicks = 0;
+
 function randomItem() {
   return Math.floor(Math.random() * (availableItems.length));
 }
@@ -153,6 +155,7 @@ function createAppend(obj) {
   var parent = document.getElementById('display');
   var child = document.createElement('img');
   child.setAttribute('class', 'img');
+  child.setAttribute('id', obj.name);
   child.setAttribute('src', obj.path);
   child.setAttribute('type', 'submit');
   parent.appendChild(child);
@@ -167,14 +170,21 @@ function removeOld() {
 };
 
 function randomThree() {
-  // removeOld();
   for(var i = 0; i < 3; i++) {
     var which = randomItem();
     createAppend(availableItems[which]);
     unavailableItems.push(availableItems[which]);
     availableItems.splice(which, 1);
+    var button = document.getElementById('display');
+    var click = document.getElementsByClassName('img')[i];
+    click.addEventListener('click', handleClick);
   };
-  // availableItems.push(unavailableItems[0, 1, 2]);
 };
+
+function handleClick(event) {
+  event.preventDefault();
+  totalClicks ++;
+  removeOld();
+}
 
 randomThree();
