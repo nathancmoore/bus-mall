@@ -1,11 +1,35 @@
+html {
+ background: url('img/background-pattern-design-31.jpg') repeat center center fixed;
+ -webkit-background-size: cover;
+ -moz-background-size: cover;
+ -o-background-size: cover;
+ background-size: cover;
+}
+body {
+ color: white;
+ background-color: gray;
+ opacity: .8;
+ text-align: center;
+ width: 80%
+ margin-left: 15%;
+}
 
+h1 {
+  font-family: 'Baloo Bhaijaan', cursive;
+  text-align: center;
+}
 
-#display {
-  height: 520px;
+h2 {
+  font-family: 'Roboto Condensed', sans-serif;
+  text-align: center;
 }
 
 .img {
   height: 200px;
   width: 200px;
   cursor: pointer;
+}
+
+li {
+  list-style-type: none;
 }
