@@ -140,6 +140,8 @@ var wineglass = {
   timesClicked: 0,
 };
 
+var allItems = [bag, banana, bathroom, boots, breakfast, bubblegum, chair, cthulhu, dogduck, dragon, pen, petsweep, scissors, shark, sweep, tauntaun, unicorn, usb, watercan, wineglass];
+
 var availableItems = [bag, banana, bathroom, boots, breakfast, bubblegum, chair, cthulhu, dogduck, dragon, pen, petsweep, scissors, shark, sweep, tauntaun, unicorn, usb, watercan, wineglass];
 
 var unavailableItems = [];
@@ -147,7 +149,7 @@ var unavailableItems = [];
 var totalClicks = 0;
 
 function randomItem() {
-  return Math.floor(Math.random() * (availableItems.length));
+  return Math.floor(Math.random() * (availableItems.length - 1));
 }
 
 function createAppend(obj) {
@@ -159,6 +161,7 @@ function createAppend(obj) {
   child.setAttribute('src', obj.path);
   child.setAttribute('type', 'submit');
   parent.appendChild(child);
+
 };
 
 function removeOld() {
@@ -166,15 +169,18 @@ function removeOld() {
     var parent = document.getElementById('display');
     var child = document.getElementsByTagName('img')[0];
     parent.removeChild(child);
+    availableItems.push(unavailableItems[0]);
+    unavailableItems.splice(0, 1);
   };
 };
 
 function randomThree() {
   for(var i = 0; i < 3; i++) {
     var which = randomItem();
-    createAppend(availableItems[which]);
+    console.log(which);
     unavailableItems.push(availableItems[which]);
     availableItems.splice(which, 1);
+    createAppend(availableItems[which]);
     var button = document.getElementById('display');
     var click = document.getElementsByClassName('img')[i];
     click.addEventListener('click', handleClick);
@@ -182,9 +188,30 @@ function randomThree() {
 };
 
 function handleClick(event) {
-  event.preventDefault();
-  totalClicks ++;
-  removeOld();
+  if(totalClicks < 24) {
+    event.preventDefault();
+    totalClicks ++;
+    removeOld();
+    for (i = 0; i < allItems.length; i++) {
+      if(allItems[i].name === event.target.id) {
+        allItems[i].timesClicked ++;
+      }
+    }
+    randomThree();
+  }
+  else {
+    removeOld();
+    var parent = document.getElementById('display');
+    var child = document.createElement('ul');
+    child.setAttribute('id', 'ul');
+    parent.appendChild(child);
+    for(var i = 0; i < allItems.length; i++) {
+      var ul = document.getElementById('ul');
+      var li = document.createElement('li');
+      li.innerText = allItems[i].name.toUpperCase() + ': Times displayed: ' + allItems[i].timesDisplayed + ' ------- Times clicked: ' + allItems[i].timesClicked;
+      ul.appendChild(li);
+    }
+  }
 }
 
 randomThree();
