@@ -21,6 +21,8 @@ var usb = {name: 'usb', path: 'img/usb.gif', timesDisplayed: 0, timesClicked: 0,
 var watercan = {name: 'watercan', path: 'img/watercan.jpg', timesDisplayed: 0, timesClicked: 0,};
 var wineglass = {name: 'wineglass', path: 'img/wineglass.jpg', timesDisplayed: 0, timesClicked: 0,};
 
+var maxClicks = 25;
+
 var allItems = [bag, banana, bathroom, boots, breakfast, bubblegum, chair, cthulhu, dogduck, dragon, pen, petsweep, scissors, shark, sweep, tauntaun, unicorn, usb, watercan, wineglass];
 
 var availableItems = [bag, banana, bathroom, boots, breakfast, bubblegum, chair, cthulhu, dogduck, dragon, pen, petsweep, scissors, shark, sweep, tauntaun, unicorn, usb, watercan, wineglass];
@@ -28,6 +30,12 @@ var availableItems = [bag, banana, bathroom, boots, breakfast, bubblegum, chair,
 var unavailableItems = [];
 
 var totalClicks = 0;
+
+var chartLabels = [];
+
+var chartClickData = [];
+
+var chartDisplayData = [];
 
 function randomItem() {
   return Math.floor(Math.random() * (availableItems.length - 1));
@@ -71,11 +79,68 @@ function randomThree() {
   }
 }
 
+function generateChartData() {
+  for(var i = 0; i < allItems.length; i++) {
+    chartClickData.push(allItems[i].timesClicked);
+    chartDisplayData.push(allItems[i].timesDisplayed);
+    chartLabels.push(allItems[i].name);
+  }
+}
+
+function displayResults() {
+  var ctx = document.getElementById('canvas').getContext('2d');
+  var clickChart = new Chart(ctx, {
+    type: 'horizontalBar',
+    data: {
+      labels: chartLabels,
+      datasets: [{
+        label: '# of clicks',
+        data: chartClickData,
+        backgroundColor: [
+          '#49fa56',
+          '#be3e8c',
+          '#57d90f',
+          '#6de56d',
+          '#3801ea',
+          '#d49897',
+          '#3e3090',
+          '#7b58b7',
+          '#2745e2',
+          '#758532',
+          '#077554',
+          '#3e725d',
+          '#c663a5',
+          '#fe73ec',
+          '#38050e',
+          '#4bbec2',
+          '#9c2bbb',
+          '#6d8ea5',
+          '#21f657',
+          '#43354e'
+        ],
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Clicks'
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero:true
+          }
+        }]
+      }
+    }
+  });
+
+}
 function handleClick(event) {
-  if(totalClicks < 25) {
+  if(totalClicks < maxClicks) {
     event.preventDefault();
     totalClicks ++;
-    for (i = 0; i < allItems.length; i++) {
+    for (var i = 0; i < allItems.length; i++) {
       if(allItems[i].name === event.target.id) {
         allItems[i].timesClicked ++;
       }
@@ -86,16 +151,8 @@ function handleClick(event) {
   }
   else {
     removeOld();
-    var parent = document.getElementById('display');
-    var child = document.createElement('ul');
-    child.setAttribute('id', 'ul');
-    parent.appendChild(child);
-    for(var i = 0; i < allItems.length; i++) {
-      var ul = document.getElementById('ul');
-      var li = document.createElement('li');
-      li.innerText = allItems[i].name.toUpperCase() + ': Times displayed: ' + allItems[i].timesDisplayed + ' ------- Times clicked: ' + allItems[i].timesClicked;
-      ul.appendChild(li);
-    }
+    generateChartData();
+    displayResults();
   }
 }
 

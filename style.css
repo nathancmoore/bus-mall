@@ -33,3 +33,13 @@ h2 {
 li {
   list-style-type: none;
 }
+
+#chartBox {
+  opacity: 1;
+  width: 70%;
+  margin: auto;
+  /*visibility: hidden;*/
+}
+
+#canvas {
+}
