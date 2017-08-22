@@ -161,43 +161,47 @@ function createAppend(obj) {
   child.setAttribute('src', obj.path);
   child.setAttribute('type', 'submit');
   parent.appendChild(child);
-
-};
+}
 
 function removeOld() {
   for(var i = 0; i < 3; i++) {
     var parent = document.getElementById('display');
     var child = document.getElementsByTagName('img')[0];
     parent.removeChild(child);
+  }
+}
+
+function unavailableToAvailable() {
+  for(var i = 0; i < 3; i++) {
     availableItems.push(unavailableItems[0]);
     unavailableItems.splice(0, 1);
-  };
-};
+  }
+}
 
 function randomThree() {
   for(var i = 0; i < 3; i++) {
     var which = randomItem();
-    console.log(which);
-    unavailableItems.push(availableItems[which]);
-    availableItems.splice(which, 1);
     createAppend(availableItems[which]);
     var button = document.getElementById('display');
     var click = document.getElementsByClassName('img')[i];
     click.addEventListener('click', handleClick);
-  };
-};
+    unavailableItems.push(availableItems[which]);
+    availableItems.splice(which, 1);
+  }
+}
 
 function handleClick(event) {
-  if(totalClicks < 24) {
+  if(totalClicks < 25) {
     event.preventDefault();
     totalClicks ++;
-    removeOld();
     for (i = 0; i < allItems.length; i++) {
       if(allItems[i].name === event.target.id) {
         allItems[i].timesClicked ++;
       }
     }
+    removeOld();
     randomThree();
+    unavailableToAvailable();
   }
   else {
     removeOld();
