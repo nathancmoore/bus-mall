@@ -96,34 +96,21 @@ function displayResults() {
       datasets: [{
         label: '# of clicks',
         data: chartClickData,
-        backgroundColor: [
-          '#49fa56',
-          '#be3e8c',
-          '#57d90f',
-          '#6de56d',
-          '#3801ea',
-          '#d49897',
-          '#3e3090',
-          '#7b58b7',
-          '#2745e2',
-          '#758532',
-          '#077554',
-          '#3e725d',
-          '#c663a5',
-          '#fe73ec',
-          '#38050e',
-          '#4bbec2',
-          '#9c2bbb',
-          '#6d8ea5',
-          '#21f657',
-          '#43354e'
-        ],
+        backgroundColor: ['#49fa56', '#be3e8c', '#57d90f', '#6de56d', '#3801ea', '#d49897', '#3e3090', '#7b58b7', '#2745e2', '#758532', '#077554', '#3e725d', '#c663a5', '#fe73ec', '#38050e', '#4bbec2', '#9c2bbb', '#6d8ea5', '#21f657', '#43354e'],
       }]
     },
     options: {
       title: {
         display: true,
-        text: 'Clicks'
+        text: 'CLICKS',
+        fontColor: 'black',
+        fontFamily: 'Roboto Condensed',
+        fontSize: 30,
+      },
+      legend: {
+        labels: {
+          fontColor: 'black'
+        }
       },
       scales: {
         yAxes: [{

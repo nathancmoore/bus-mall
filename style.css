@@ -36,10 +36,11 @@ li {
 
 #chartBox {
   opacity: 1;
-  width: 70%;
+  width: 80%;
   margin: auto;
   /*visibility: hidden;*/
 }
 
 #canvas {
+  background-color: white;
 }
