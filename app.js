@@ -33,9 +33,17 @@ var totalClicks = 0;
 
 var chartLabels = [];
 
-var chartClickData = [];
+if (localStorage.getItem('click')) {
+  var chartClickData = JSON.parse(localStorage.getItem('click'));
+} else {
+  var chartClickData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+}
 
-var chartDisplayData = [];
+if (localStorage.getItem('display')) {
+  var chartDisplayData = JSON.parse(localStorage.getItem('display'));
+} else {
+  var chartDisplayData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+}
 
 function randomItem() {
   return Math.floor(Math.random() * (availableItems.length - 1));
@@ -81,10 +89,12 @@ function randomThree() {
 
 function generateChartData() {
   for(var i = 0; i < allItems.length; i++) {
-    chartClickData.push(allItems[i].timesClicked);
-    chartDisplayData.push(allItems[i].timesDisplayed);
+    chartClickData[i] = parseInt(chartClickData[i] + allItems[i].timesClicked);
+    chartDisplayData[i] = parseInt(chartDisplayData[i] + allItems[i].timesDisplayed);
     chartLabels.push(allItems[i].name);
   }
+  localStorage.setItem('click', JSON.stringify(chartClickData));
+  localStorage.setItem('display', JSON.stringify(chartDisplayData));
 }
 
 function displayResults() {
